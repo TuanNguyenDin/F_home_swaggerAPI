@@ -7,7 +7,6 @@ servers:
 - url: https://virtserver.swaggerhub.com/DINHTUNANN161/F_homes/1.0.0
   description: SwaggerHub API Auto Mocking
 - url: http://localhost:3000/
-- url: https://fhome-be.vercel.app/
 paths:
   /login:
     post:
@@ -21,19 +20,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/accessToken'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/accessToken'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/accessToken'
+              example:
+                accessToken: your Token
       responses:
         "200":
-          description: successful operation
+          description: Login successfully!
         "400":
-          description: Invalid username/password supplied
-      x-swagger-router-controller: User
+          description: Your email domain is not supported.
+        "401":
+          description: Server requires authentication for client request
+        "403":
+          description: Client has been identified but has no access rights
+        "500":
+          description: Internal Server Error
+      x-swagger-router-controller: Authorization
   /getUser:
     get:
       tags:
@@ -43,7 +43,7 @@ paths:
       operationId: findUser
       responses:
         "200":
-          description: successful operation
+          description: Get users successfully!
           content:
             application/json:
               schema:
@@ -53,14 +53,16 @@ paths:
                 x-content-type: application/json
         "400":
           description: Invalid status value
+        "500":
+          description: Internal Server Error
       x-swagger-router-controller: User
-  /setUserStatu/{userID}:
+  /setUserStatus/{userID}:
     put:
       tags:
       - User
-      summary: Update user
+      summary: Update user status
       description: This can only be done by the logged in user.
-      operationId: updateUser
+      operationId: updateUserStatus
       parameters:
       - name: userID
         in: path
@@ -71,7 +73,7 @@ paths:
         schema:
           type: string
       requestBody:
-        description: Update an existent user in the data
+        description: Update an user status in the data
         content:
           application/json:
             schema:
@@ -83,14 +85,19 @@ paths:
             schema:
               $ref: '#/components/schemas/User'
       responses:
-        default:
-          description: successful operation
-      x-swagger-router-controller: userRoutes
+        "200":
+          description: User status updated successfully!
+        "404":
+          description: User not found or status is not true
+        "500":
+          description: Internal Server Error
+      x-swagger-router-controller: User
+  /deleteUser/{userID}:
     delete:
       tags:
       - User
-      summary: Delete user
-      description: This can only be done by the logged in user.
+      summary: Change user status become inactive
+      description: This can only be done by the logged in.
       operationId: deleteUser
       parameters:
       - name: userID
@@ -102,6 +109,8 @@ paths:
         schema:
           type: string
       responses:
+        "200":
+          description: User status change to inactive success
         "400":
           description: Invalid username supplied
         "404":
@@ -116,21 +125,24 @@ paths:
       operationId: findUserWithAuth
       responses:
         "200":
-          description: successful operation
+          description: Get users successfully!
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/User'
+                  $ref: '#/components/schemas/inline_response_200'
                 x-content-type: application/json
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
         "400":
-          description: Invalid status value
+          description: Invalid status value request
+        "401":
+          description: Server requires authentication for client request
+        "403":
+          description: Client has been identified but has no access rights
+        "500":
+          description: Internal Server Error
+      security:
+      - BasicAuth: []
       x-swagger-router-controller: User
     post:
       tags:
@@ -153,7 +165,24 @@ paths:
       responses:
         default:
           description: successful operation
-      x-swagger-router-controller: userRoutes
+        "201":
+          description: Create users successfully!
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inline_response_200'
+                x-content-type: application/json
+        "401":
+          description: Server requires authentication for client request
+        "403":
+          description: Client has been identified but has no access rights
+        "500":
+          description: Internal Server Error
+      security:
+      - BasicAuth: []
+      x-swagger-router-controller: User
   /users/{userID}:
     get:
       tags:
@@ -172,18 +201,26 @@ paths:
           type: string
       responses:
         "200":
-          description: successful operation
+          description: Get users successfully!
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/User'
+                type: array
+                items:
+                  $ref: '#/components/schemas/inline_response_200'
+                x-content-type: application/json
         "400":
           description: Invalid username supplied
+        "401":
+          description: Server requires authentication for client request
+        "403":
+          description: Client has been identified but has no access rights
         "404":
           description: User not found
+        "500":
+          description: Internal Server Error
+      security:
+      - BasicAuth: []
       x-swagger-router-controller: User
     put:
       tags:
@@ -213,8 +250,25 @@ paths:
             schema:
               $ref: '#/components/schemas/User'
       responses:
-        default:
-          description: successful operation
+        "200":
+          description: Update users successfully!
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inline_response_200'
+                x-content-type: application/json
+        "401":
+          description: Server requires authentication for client request
+        "403":
+          description: Client has been identified but has no access rights
+        "404":
+          description: User not found
+        "500":
+          description: Internal Server Error
+      security:
+      - BasicAuth: []
       x-swagger-router-controller: userRoutes
     delete:
       tags:
@@ -232,10 +286,27 @@ paths:
         schema:
           type: string
       responses:
+        "200":
+          description: Users change status inactive successfully!
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inline_response_200'
+                x-content-type: application/json
         "400":
           description: Invalid username supplied
+        "401":
+          description: Server requires authentication for client request
+        "403":
+          description: Client has been identified but has no access rights
         "404":
           description: User not found
+        "500":
+          description: Internal Server Error
+      security:
+      - BasicAuth: []
       x-swagger-router-controller: User
   /postingNew:
     post:
@@ -257,11 +328,15 @@ paths:
             schema:
               $ref: '#/components/schemas/Posting'
       responses:
-        "200":
-          description: successful
-        "400":
-          description: Invalid supplied
-      x-swagger-router-controller: User
+        "201":
+          description: Post created successfully!
+        "401":
+          description: Server requires authentication for client request
+        "500":
+          description: Internal Server Error
+      security:
+      - BasicAuth: []
+      x-swagger-router-controller: Posting
   /getAllPostings:
     get:
       tags:
@@ -271,7 +346,7 @@ paths:
       operationId: findAllPosting
       responses:
         "200":
-          description: successful operation
+          description: Get posts successfully!
           content:
             application/json:
               schema:
@@ -284,8 +359,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Posting'
-        "400":
-          description: Invalid status value
+        "404":
+          description: Posting not found
+        "500":
+          description: Internal Server Error
       x-swagger-router-controller: Posting
   /getPostingById/{PostingId}:
     get:
@@ -314,9 +391,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Posting'
         "400":
-          description: Invalid username supplied
+          description: Invalid Id supplied
         "404":
           description: Posting not found
+        "500":
+          description: Internal Server Error
       x-swagger-router-controller: Posting
   /updatePosting/{PostingId}:
     put:
@@ -347,9 +426,22 @@ paths:
             schema:
               $ref: '#/components/schemas/Posting'
       responses:
-        default:
+        "200":
           description: successful operation
-      x-swagger-router-controller: PostingRoutes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Posting'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Posting'
+        "400":
+          description: Invalid Id supplied
+        "404":
+          description: Posting not found
+        "500":
+          description: Internal Server Error
+      x-swagger-router-controller: Posting
   /deletePosting/{PostingId}:
     delete:
       tags:
@@ -371,6 +463,8 @@ paths:
           description: Invalid Id supplied
         "404":
           description: Posting not found
+        "500":
+          description: Internal Server Error
       x-swagger-router-controller: Posting
   /getRooms:
     get:
@@ -394,31 +488,24 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Room'
-        "400":
-          description: Invalid status value
+        "500":
+          description: Internal Server Error
       x-swagger-router-controller: Room
-  /rooms/{url}:
+  /rooms:
     post:
       tags:
       - Room
-      description: API for upload file to storage
-      operationId: roomsUrlPOST
-      parameters:
-      - name: url
-        in: path
-        description: The id that needs to be deleted
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
+      summary: Update a file
+      description: Update a file by its ID
+      operationId: roomsPOST
+      parameters: []
       responses:
         "200":
           description: Upload Successfully!!
         "400":
-          description: Miss paraming !!!
+          description: Please select an image to upload.
         "500":
-          description: Server error
+          description: Something went wrong. Please try again later.
       x-swagger-router-controller: Room
   /getBuilding:
     get:
@@ -442,8 +529,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Building'
-        "400":
-          description: Invalid status value
+        "500":
+          description: Internal Server Error
       x-swagger-router-controller: Building
 components:
   schemas:
@@ -476,11 +563,8 @@ components:
         password: password
         phoneNum: phoneNum
         email: email
+        status: true
         roleName: fptmember
-    accessToken:
-      description: your accessToken
-      example:
-        accessToken: your Token
     Posting:
       type: object
       properties:
@@ -569,6 +653,7 @@ components:
           password: password
           phoneNum: phoneNum
           email: email
+          status: true
           roleName: fptmember
         messages: messages
         status: status

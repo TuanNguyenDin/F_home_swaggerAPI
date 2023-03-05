@@ -13,8 +13,8 @@ module.exports.findAllRoom = function findAllRoom (req, res, next) {
     });
 };
 
-module.exports.roomsUrlPOST = function roomsUrlPOST (req, res, next, url) {
-  Room.roomsUrlPOST(url)
+module.exports.roomsPOST = function roomsPOST (req, res, next) {
+  Room.roomsPOST()
     .then(function (response) {
       utils.writeJson(res, response);
     })

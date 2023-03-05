@@ -73,8 +73,8 @@ module.exports.getUserById = function getUserById (req, res, next, userID) {
     });
 };
 
-module.exports.updateUser = function updateUser (req, res, next, body, userID) {
-  User.updateUser(body, userID)
+module.exports.updateUserStatus = function updateUserStatus (req, res, next, body, userID) {
+  User.updateUserStatus(body, userID)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -83,8 +83,8 @@ module.exports.updateUser = function updateUser (req, res, next, body, userID) {
     });
 };
 
-module.exports.updateUser = function updateUser (req, res, next, body, userID) {
-  User.updateUser(body, userID)
+module.exports.updateUserStatus = function updateUserStatus (req, res, next, body, userID) {
+  User.updateUserStatus(body, userID)
     .then(function (response) {
       utils.writeJson(res, response);
     })
