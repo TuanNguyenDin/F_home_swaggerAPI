@@ -6,11 +6,41 @@
  * This can only be done by the logged in user.
  *
  * body User Create a user (optional)
- * no response value expected for this operation
+ * returns List
  **/
 exports.createUser = function(body) {
   return new Promise(function(resolve, reject) {
-    resolve();
+    var examples = {};
+    examples['application/json'] = [ {
+  "data" : {
+    "_ID" : "adminID",
+    "FullName" : "adminName",
+    "password" : "password",
+    "phoneNum" : "phoneNum",
+    "email" : "email",
+    "status" : true,
+    "roleName" : "fptmember"
+  },
+  "messages" : "messages",
+  "status" : "status"
+}, {
+  "data" : {
+    "_ID" : "adminID",
+    "FullName" : "adminName",
+    "password" : "password",
+    "phoneNum" : "phoneNum",
+    "email" : "email",
+    "status" : true,
+    "roleName" : "fptmember"
+  },
+  "messages" : "messages",
+  "status" : "status"
+} ];
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
   });
 }
 
@@ -20,18 +50,48 @@ exports.createUser = function(body) {
  * This can only be done by the logged in user.
  *
  * body User Create a user (optional)
- * no response value expected for this operation
+ * returns List
  **/
 exports.createUser = function(body) {
   return new Promise(function(resolve, reject) {
-    resolve();
+    var examples = {};
+    examples['application/json'] = [ {
+  "data" : {
+    "_ID" : "adminID",
+    "FullName" : "adminName",
+    "password" : "password",
+    "phoneNum" : "phoneNum",
+    "email" : "email",
+    "status" : true,
+    "roleName" : "fptmember"
+  },
+  "messages" : "messages",
+  "status" : "status"
+}, {
+  "data" : {
+    "_ID" : "adminID",
+    "FullName" : "adminName",
+    "password" : "password",
+    "phoneNum" : "phoneNum",
+    "email" : "email",
+    "status" : true,
+    "roleName" : "fptmember"
+  },
+  "messages" : "messages",
+  "status" : "status"
+} ];
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
   });
 }
 
 
 /**
- * Delete user
- * This can only be done by the logged in user.
+ * Change user status become inactive
+ * This can only be done by the logged in.
  *
  * userID String The name that needs to be deleted
  * no response value expected for this operation
@@ -48,11 +108,41 @@ exports.deleteUser = function(userID) {
  * This can only be done by the logged in user.
  *
  * userID String The name that needs to be deleted
- * no response value expected for this operation
+ * returns List
  **/
 exports.deleteUserwithinAuth = function(userID) {
   return new Promise(function(resolve, reject) {
-    resolve();
+    var examples = {};
+    examples['application/json'] = [ {
+  "data" : {
+    "_ID" : "adminID",
+    "FullName" : "adminName",
+    "password" : "password",
+    "phoneNum" : "phoneNum",
+    "email" : "email",
+    "status" : true,
+    "roleName" : "fptmember"
+  },
+  "messages" : "messages",
+  "status" : "status"
+}, {
+  "data" : {
+    "_ID" : "adminID",
+    "FullName" : "adminName",
+    "password" : "password",
+    "phoneNum" : "phoneNum",
+    "email" : "email",
+    "status" : true,
+    "roleName" : "fptmember"
+  },
+  "messages" : "messages",
+  "status" : "status"
+} ];
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
   });
 }
 
@@ -73,6 +163,7 @@ exports.findUser = function() {
     "password" : "password",
     "phoneNum" : "phoneNum",
     "email" : "email",
+    "status" : true,
     "roleName" : "fptmember"
   },
   "messages" : "messages",
@@ -84,6 +175,7 @@ exports.findUser = function() {
     "password" : "password",
     "phoneNum" : "phoneNum",
     "email" : "email",
+    "status" : true,
     "roleName" : "fptmember"
   },
   "messages" : "messages",
@@ -108,19 +200,29 @@ exports.findUserWithAuth = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = [ {
-  "_ID" : "adminID",
-  "FullName" : "adminName",
-  "password" : "password",
-  "phoneNum" : "phoneNum",
-  "email" : "email",
-  "roleName" : "fptmember"
+  "data" : {
+    "_ID" : "adminID",
+    "FullName" : "adminName",
+    "password" : "password",
+    "phoneNum" : "phoneNum",
+    "email" : "email",
+    "status" : true,
+    "roleName" : "fptmember"
+  },
+  "messages" : "messages",
+  "status" : "status"
 }, {
-  "_ID" : "adminID",
-  "FullName" : "adminName",
-  "password" : "password",
-  "phoneNum" : "phoneNum",
-  "email" : "email",
-  "roleName" : "fptmember"
+  "data" : {
+    "_ID" : "adminID",
+    "FullName" : "adminName",
+    "password" : "password",
+    "phoneNum" : "phoneNum",
+    "email" : "email",
+    "status" : true,
+    "roleName" : "fptmember"
+  },
+  "messages" : "messages",
+  "status" : "status"
 } ];
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -135,19 +237,111 @@ exports.findUserWithAuth = function() {
  * Get user by user id
  *
  * userID String The name that needs to be fetched. Use user1 for testing. 
- * returns User
+ * returns List
  **/
 exports.getUserById = function(userID) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "_ID" : "adminID",
-  "FullName" : "adminName",
-  "password" : "password",
-  "phoneNum" : "phoneNum",
-  "email" : "email",
-  "roleName" : "fptmember"
-};
+    examples['application/json'] = [ {
+  "data" : {
+    "_ID" : "adminID",
+    "FullName" : "adminName",
+    "password" : "password",
+    "phoneNum" : "phoneNum",
+    "email" : "email",
+    "status" : true,
+    "roleName" : "fptmember"
+  },
+  "messages" : "messages",
+  "status" : "status"
+}, {
+  "data" : {
+    "_ID" : "adminID",
+    "FullName" : "adminName",
+    "password" : "password",
+    "phoneNum" : "phoneNum",
+    "email" : "email",
+    "status" : true,
+    "roleName" : "fptmember"
+  },
+  "messages" : "messages",
+  "status" : "status"
+} ];
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
+  });
+}
+
+
+/**
+ * Update user status
+ * This can only be done by the logged in user.
+ *
+ * body User Update an user status in the data (optional)
+ * userID String name that need to be update
+ * no response value expected for this operation
+ **/
+exports.updateUserStatus = function(body,userID) {
+  return new Promise(function(resolve, reject) {
+    resolve();
+  });
+}
+
+
+/**
+ * Update user status
+ * This can only be done by the logged in user.
+ *
+ * body User Update an user status in the data (optional)
+ * userID String name that need to be update
+ * no response value expected for this operation
+ **/
+exports.updateUserStatus = function(body,userID) {
+  return new Promise(function(resolve, reject) {
+    resolve();
+  });
+}
+
+
+/**
+ * Update user
+ * This can only be done by the logged in user.
+ *
+ * body User Update an existent user in the data (optional)
+ * userID String name that need to be update
+ * returns List
+ **/
+exports.updateUserWithAuth = function(body,userID) {
+  return new Promise(function(resolve, reject) {
+    var examples = {};
+    examples['application/json'] = [ {
+  "data" : {
+    "_ID" : "adminID",
+    "FullName" : "adminName",
+    "password" : "password",
+    "phoneNum" : "phoneNum",
+    "email" : "email",
+    "status" : true,
+    "roleName" : "fptmember"
+  },
+  "messages" : "messages",
+  "status" : "status"
+}, {
+  "data" : {
+    "_ID" : "adminID",
+    "FullName" : "adminName",
+    "password" : "password",
+    "phoneNum" : "phoneNum",
+    "email" : "email",
+    "status" : true,
+    "roleName" : "fptmember"
+  },
+  "messages" : "messages",
+  "status" : "status"
+} ];
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -163,56 +357,41 @@ exports.getUserById = function(userID) {
  *
  * body User Update an existent user in the data (optional)
  * userID String name that need to be update
- * no response value expected for this operation
- **/
-exports.updateUser = function(body,userID) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
-}
-
-
-/**
- * Update user
- * This can only be done by the logged in user.
- *
- * body User Update an existent user in the data (optional)
- * userID String name that need to be update
- * no response value expected for this operation
- **/
-exports.updateUser = function(body,userID) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
-}
-
-
-/**
- * Update user
- * This can only be done by the logged in user.
- *
- * body User Update an existent user in the data (optional)
- * userID String name that need to be update
- * no response value expected for this operation
+ * returns List
  **/
 exports.updateUserWithAuth = function(body,userID) {
   return new Promise(function(resolve, reject) {
-    resolve();
-  });
-}
-
-
-/**
- * Update user
- * This can only be done by the logged in user.
- *
- * body User Update an existent user in the data (optional)
- * userID String name that need to be update
- * no response value expected for this operation
- **/
-exports.updateUserWithAuth = function(body,userID) {
-  return new Promise(function(resolve, reject) {
-    resolve();
+    var examples = {};
+    examples['application/json'] = [ {
+  "data" : {
+    "_ID" : "adminID",
+    "FullName" : "adminName",
+    "password" : "password",
+    "phoneNum" : "phoneNum",
+    "email" : "email",
+    "status" : true,
+    "roleName" : "fptmember"
+  },
+  "messages" : "messages",
+  "status" : "status"
+}, {
+  "data" : {
+    "_ID" : "adminID",
+    "FullName" : "adminName",
+    "password" : "password",
+    "phoneNum" : "phoneNum",
+    "email" : "email",
+    "status" : true,
+    "roleName" : "fptmember"
+  },
+  "messages" : "messages",
+  "status" : "status"
+} ];
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
   });
 }
 

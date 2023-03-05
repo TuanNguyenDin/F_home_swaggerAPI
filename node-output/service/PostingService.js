@@ -80,11 +80,24 @@ exports.getPostingById = function(postingId) {
  *
  * body Posting Update an existent user in the data (optional)
  * postingId String name that need to be update
- * no response value expected for this operation
+ * returns Posting
  **/
 exports.updatePostingWithAuth = function(body,postingId) {
   return new Promise(function(resolve, reject) {
-    resolve();
+    var examples = {};
+    examples['application/json'] = {
+  "img" : "img",
+  "Description" : "Description",
+  "roomTypes" : "roomTypes",
+  "buildings" : "buildings",
+  "userPosting" : "userPosting",
+  "title" : "title"
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
   });
 }
 
@@ -95,11 +108,24 @@ exports.updatePostingWithAuth = function(body,postingId) {
  *
  * body Posting Update an existent user in the data (optional)
  * postingId String name that need to be update
- * no response value expected for this operation
+ * returns Posting
  **/
 exports.updatePostingWithAuth = function(body,postingId) {
   return new Promise(function(resolve, reject) {
-    resolve();
+    var examples = {};
+    examples['application/json'] = {
+  "img" : "img",
+  "Description" : "Description",
+  "roomTypes" : "roomTypes",
+  "buildings" : "buildings",
+  "userPosting" : "userPosting",
+  "title" : "title"
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
   });
 }
 

@@ -35,12 +35,12 @@ exports.findAllRoom = function() {
 
 
 /**
- * API for upload file to storage
+ * Update a file
+ * Update a file by its ID
  *
- * url String The id that needs to be deleted
  * no response value expected for this operation
  **/
-exports.roomsUrlPOST = function(url) {
+exports.roomsPOST = function() {
   return new Promise(function(resolve, reject) {
     resolve();
   });
