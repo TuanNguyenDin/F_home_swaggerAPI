@@ -13,6 +13,16 @@ module.exports.findAllRoom = function findAllRoom (req, res, next) {
     });
 };
 
+module.exports.getRoomsByUserIdGET = function getRoomsByUserIdGET (req, res, next) {
+  Room.getRoomsByUserIdGET()
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
 module.exports.roomsPOST = function roomsPOST (req, res, next) {
   Room.roomsPOST()
     .then(function (response) {

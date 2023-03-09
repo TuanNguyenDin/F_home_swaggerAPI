@@ -35,6 +35,44 @@ exports.findAllRoom = function() {
 
 
 /**
+ * Get rooms by user id
+ *
+ * returns inline_response_200_2
+ **/
+exports.getRoomsByUserIdGET = function() {
+  return new Promise(function(resolve, reject) {
+    var examples = {};
+    examples['application/json'] = {
+  "data" : {
+    "postings" : [ {
+      "Status" : "Status",
+      "Building" : "Building",
+      "Description" : "Description",
+      "User" : "User",
+      "Price" : "Price",
+      "Size" : "Size"
+    }, {
+      "Status" : "Status",
+      "Building" : "Building",
+      "Description" : "Description",
+      "User" : "User",
+      "Price" : "Price",
+      "Size" : "Size"
+    } ]
+  },
+  "messages" : "messages",
+  "status" : "status"
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
+  });
+}
+
+
+/**
  * Update a file
  * Update a file by its ID
  *
