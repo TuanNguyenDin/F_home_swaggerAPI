@@ -363,6 +363,29 @@ paths:
           description: Posting not found
         "500":
           description: Internal Server Error
+      security:
+      - BasicAuth: []
+      x-swagger-router-controller: Posting
+  /getPostingByUserId:
+    get:
+      tags:
+      - Posting
+      summary: Get all postings
+      description: Get all postings either from cache or database
+      operationId: getPostingByUserIdGET
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
       x-swagger-router-controller: Posting
   /getPostingById/{PostingId}:
     get:
@@ -498,7 +521,12 @@ paths:
       summary: Update a file
       description: Update a file by its ID
       operationId: roomsPOST
-      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/rooms_body'
+        required: true
       responses:
         "200":
           description: Upload Successfully!!
@@ -657,6 +685,68 @@ components:
           roleName: fptmember
         messages: messages
         status: status
+    inline_response_200_1:
+      type: object
+      properties:
+        status:
+          type: string
+          example: Success
+        messages:
+          type: string
+          example: Get posts successfully from cache!
+        data:
+          $ref: '#/components/schemas/inline_response_200_1_data'
+      example:
+        data:
+          postings:
+          - img: img
+            Description: Description
+            roomTypes: roomTypes
+            buildings: buildings
+            userPosting: userPosting
+            title: title
+          - img: img
+            Description: Description
+            roomTypes: roomTypes
+            buildings: buildings
+            userPosting: userPosting
+            title: title
+        messages: Get posts successfully from cache!
+        status: Success
+    inline_response_500:
+      type: object
+      properties:
+        status:
+          type: string
+        messages:
+          type: string
+    rooms_body:
+      type: object
+      properties:
+        img:
+          type: string
+          format: binary
+    inline_response_200_1_data:
+      type: object
+      properties:
+        postings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Posting'
+      example:
+        postings:
+        - img: img
+          Description: Description
+          roomTypes: roomTypes
+          buildings: buildings
+          userPosting: userPosting
+          title: title
+        - img: img
+          Description: Description
+          roomTypes: roomTypes
+          buildings: buildings
+          userPosting: userPosting
+          title: title
   securitySchemes:
     BasicAuth:
       type: http

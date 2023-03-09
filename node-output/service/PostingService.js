@@ -75,6 +75,45 @@ exports.getPostingById = function(postingId) {
 
 
 /**
+ * Get all postings
+ * Get all postings either from cache or database
+ *
+ * returns inline_response_200_1
+ **/
+exports.getPostingByUserIdGET = function() {
+  return new Promise(function(resolve, reject) {
+    var examples = {};
+    examples['application/json'] = {
+  "data" : {
+    "postings" : [ {
+      "img" : "img",
+      "Description" : "Description",
+      "roomTypes" : "roomTypes",
+      "buildings" : "buildings",
+      "userPosting" : "userPosting",
+      "title" : "title"
+    }, {
+      "img" : "img",
+      "Description" : "Description",
+      "roomTypes" : "roomTypes",
+      "buildings" : "buildings",
+      "userPosting" : "userPosting",
+      "title" : "title"
+    } ]
+  },
+  "messages" : "Get posts successfully from cache!",
+  "status" : "Success"
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
+  });
+}
+
+
+/**
  * Update Posting
  * This can only be done by the logged in user.
  *
