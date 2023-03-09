@@ -72,9 +72,29 @@ paths:
                   $ref: '#/components/schemas/inline_response_200_1'
                 x-content-type: application/json
         "400":
-          description: Invalid status value
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
         "500":
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
       x-swagger-router-controller: User
   /setUserStatus/{userID}:
     put:
@@ -107,10 +127,30 @@ paths:
       responses:
         "200":
           description: User status updated successfully!
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
         "404":
-          description: User not found or status is not true
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
         "500":
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
       x-swagger-router-controller: User
   /deleteUser/{userID}:
     delete:
@@ -132,9 +172,29 @@ paths:
         "200":
           description: User status change to inactive success
         "400":
-          description: Invalid username supplied
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
         "404":
-          description: User not found
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
       x-swagger-router-controller: User
   /users:
     get:
@@ -154,13 +214,29 @@ paths:
                   $ref: '#/components/schemas/inline_response_200_1'
                 x-content-type: application/json
         "400":
-          description: Invalid status value request
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
         "401":
-          description: Server requires authentication for client request
-        "403":
-          description: Client has been identified but has no access rights
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
         "500":
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
       security:
       - BasicAuth: []
       x-swagger-router-controller: User
@@ -194,12 +270,30 @@ paths:
                 items:
                   $ref: '#/components/schemas/inline_response_200_1'
                 x-content-type: application/json
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
         "401":
-          description: Server requires authentication for client request
-        "403":
-          description: Client has been identified but has no access rights
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
         "500":
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
       security:
       - BasicAuth: []
       x-swagger-router-controller: User
@@ -230,15 +324,29 @@ paths:
                   $ref: '#/components/schemas/inline_response_200_1'
                 x-content-type: application/json
         "400":
-          description: Invalid username supplied
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
         "401":
-          description: Server requires authentication for client request
-        "403":
-          description: Client has been identified but has no access rights
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
         "404":
-          description: User not found
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
         "500":
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
       security:
       - BasicAuth: []
       x-swagger-router-controller: User
@@ -279,14 +387,30 @@ paths:
                 items:
                   $ref: '#/components/schemas/inline_response_200_1'
                 x-content-type: application/json
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
         "401":
-          description: Server requires authentication for client request
-        "403":
-          description: Client has been identified but has no access rights
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
         "404":
-          description: User not found
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
         "500":
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
       security:
       - BasicAuth: []
       x-swagger-router-controller: userRoutes
@@ -350,10 +474,30 @@ paths:
       responses:
         "201":
           description: Post created successfully!
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
         "401":
-          description: Server requires authentication for client request
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
         "500":
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
       security:
       - BasicAuth: []
       x-swagger-router-controller: Posting
@@ -379,10 +523,30 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Posting'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
         "404":
-          description: Posting not found
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
         "500":
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
       x-swagger-router-controller: Posting
   /getPostingByUserId:
     get:
@@ -434,11 +598,29 @@ paths:
               schema:
                 $ref: '#/components/schemas/Posting'
         "400":
-          description: Invalid Id supplied
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
         "404":
-          description: Posting not found
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
         "500":
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
       x-swagger-router-controller: Posting
   /updatePosting/{PostingId}:
     put:
@@ -479,11 +661,29 @@ paths:
               schema:
                 $ref: '#/components/schemas/Posting'
         "400":
-          description: Invalid Id supplied
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
         "404":
-          description: Posting not found
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
         "500":
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
       x-swagger-router-controller: Posting
   /deletePosting/{PostingId}:
     delete:
@@ -503,11 +703,29 @@ paths:
           type: string
       responses:
         "400":
-          description: Invalid Id supplied
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
         "404":
-          description: Posting not found
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
         "500":
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
       x-swagger-router-controller: Posting
   /getRooms:
     get:
@@ -551,9 +769,29 @@ paths:
         "200":
           description: Upload Successfully!!
         "400":
-          description: Please select an image to upload.
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
         "500":
-          description: Something went wrong. Please try again later.
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
       x-swagger-router-controller: Room
   /getRoomsByUserId:
     get:
@@ -670,8 +908,30 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Building'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
         "500":
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
       x-swagger-router-controller: Building
 components:
   schemas:
