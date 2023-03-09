@@ -32,3 +32,13 @@ module.exports.roomsPOST = function roomsPOST (req, res, next) {
       utils.writeJson(res, response);
     });
 };
+
+module.exports.updateRoomIdPUT = function updateRoomIdPUT (req, res, next, body, id) {
+  Room.updateRoomIdPUT(body, id)
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};

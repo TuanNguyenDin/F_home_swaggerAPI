@@ -78,7 +78,7 @@ exports.getPostingById = function(postingId) {
  * Get all postings
  * Get all postings either from cache or database
  *
- * returns inline_response_200_1
+ * returns inline_response_200_2
  **/
 exports.getPostingByUserIdGET = function() {
   return new Promise(function(resolve, reject) {

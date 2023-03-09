@@ -37,7 +37,7 @@ exports.findAllRoom = function() {
 /**
  * Get rooms by user id
  *
- * returns inline_response_200_2
+ * returns inline_response_200_3
  **/
 exports.getRoomsByUserIdGET = function() {
   return new Promise(function(resolve, reject) {
@@ -81,6 +81,37 @@ exports.getRoomsByUserIdGET = function() {
 exports.roomsPOST = function() {
   return new Promise(function(resolve, reject) {
     resolve();
+  });
+}
+
+
+/**
+ * Update a room by id
+ *
+ * body UpdateRoom_id_body 
+ * id String ID of the room to update
+ * returns inline_response_200_4
+ **/
+exports.updateRoomIdPUT = function(body,id) {
+  return new Promise(function(resolve, reject) {
+    var examples = {};
+    examples['application/json'] = {
+  "data" : {
+    "Status" : "Status",
+    "Building" : "Building",
+    "Description" : "Description",
+    "User" : "User",
+    "Price" : "Price",
+    "Size" : "Size"
+  },
+  "messages" : "messages",
+  "status" : "status"
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
   });
 }
 
