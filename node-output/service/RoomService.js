@@ -37,7 +37,7 @@ exports.findAllRoom = function() {
 /**
  * Get rooms by user id
  *
- * returns inline_response_200_3
+ * returns inline_response_200_5
  **/
 exports.getRoomsByUserIdGET = function() {
   return new Promise(function(resolve, reject) {
@@ -73,14 +73,64 @@ exports.getRoomsByUserIdGET = function() {
 
 
 /**
+ * Delete room by ID
+ * Delete room by ID
+ *
+ * id String ID of the room to delete
+ * returns inline_response_200_7
+ **/
+exports.roomsIdDELETE = function(id) {
+  return new Promise(function(resolve, reject) {
+    var examples = {};
+    examples['application/json'] = {
+  "data" : {
+    "room" : {
+      "Status" : "Status",
+      "Building" : "Building",
+      "Description" : "Description",
+      "User" : "User",
+      "Price" : "Price",
+      "Size" : "Size"
+    }
+  },
+  "message" : "Room with id {id} has been deleted successfully",
+  "status" : "Success"
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
+  });
+}
+
+
+/**
  * Update a file
  * Update a file by its ID
  *
- * no response value expected for this operation
+ * returns inline_response_200_4
  **/
 exports.roomsPOST = function() {
   return new Promise(function(resolve, reject) {
-    resolve();
+    var examples = {};
+    examples['application/json'] = {
+  "data" : {
+    "Status" : "Status",
+    "Building" : "Building",
+    "Description" : "Description",
+    "User" : "User",
+    "Price" : "Price",
+    "Size" : "Size"
+  },
+  "message" : "Room created successfully!",
+  "status" : "Success"
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
   });
 }
 
@@ -90,7 +140,7 @@ exports.roomsPOST = function() {
  *
  * body UpdateRoom_id_body 
  * id String ID of the room to update
- * returns inline_response_200_4
+ * returns inline_response_200_6
  **/
 exports.updateRoomIdPUT = function(body,id) {
   return new Promise(function(resolve, reject) {

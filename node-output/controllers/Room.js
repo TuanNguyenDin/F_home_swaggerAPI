@@ -23,6 +23,16 @@ module.exports.getRoomsByUserIdGET = function getRoomsByUserIdGET (req, res, nex
     });
 };
 
+module.exports.roomsIdDELETE = function roomsIdDELETE (req, res, next, id) {
+  Room.roomsIdDELETE(id)
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
 module.exports.roomsPOST = function roomsPOST (req, res, next) {
   Room.roomsPOST()
     .then(function (response) {

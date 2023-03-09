@@ -6,11 +6,24 @@
  * This can only be done by the logged in user.
  *
  * postingId String The id that needs to be deleted
- * no response value expected for this operation
+ * returns Posting
  **/
 exports.deletePostingwithinAuth = function(postingId) {
   return new Promise(function(resolve, reject) {
-    resolve();
+    var examples = {};
+    examples['application/json'] = {
+  "img" : "img",
+  "Description" : "Description",
+  "roomTypes" : "roomTypes",
+  "buildings" : "buildings",
+  "userPosting" : "userPosting",
+  "title" : "title"
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
   });
 }
 
@@ -78,7 +91,7 @@ exports.getPostingById = function(postingId) {
  * Get all postings
  * Get all postings either from cache or database
  *
- * returns inline_response_200_2
+ * returns inline_response_200_3
  **/
 exports.getPostingByUserIdGET = function() {
   return new Promise(function(resolve, reject) {

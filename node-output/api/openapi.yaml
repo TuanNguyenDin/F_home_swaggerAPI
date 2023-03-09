@@ -71,24 +71,12 @@ paths:
                 items:
                   $ref: '#/components/schemas/inline_response_200_1'
                 x-content-type: application/json
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_400'
-        "401":
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_401'
         "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_404'
+                $ref: '#/components/schemas/inline_response_404_1'
         "500":
           description: Internal Server Error
           content:
@@ -126,25 +114,17 @@ paths:
               $ref: '#/components/schemas/User'
       responses:
         "200":
-          description: User status updated successfully!
-        "400":
-          description: Bad Request
+          description: User status updated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_400'
-        "401":
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_401'
+                $ref: '#/components/schemas/inline_response_200_2'
         "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_404'
+                $ref: '#/components/schemas/inline_response_404_1'
         "500":
           description: Internal Server Error
           content:
@@ -170,25 +150,17 @@ paths:
           type: string
       responses:
         "200":
-          description: User status change to inactive success
-        "400":
-          description: Bad Request
+          description: User deleted successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_400'
-        "401":
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_401'
+                $ref: '#/components/schemas/User'
         "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_404'
+                $ref: '#/components/schemas/inline_response_404_1'
         "500":
           description: Internal Server Error
           content:
@@ -523,24 +495,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Posting'
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_400'
-        "401":
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_401'
         "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_404'
+                $ref: '#/components/schemas/inline_response_404_2'
         "500":
           description: Internal Server Error
           content:
@@ -561,7 +521,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_2'
+                $ref: '#/components/schemas/inline_response_200_3'
         "500":
           description: Server error
           content:
@@ -597,24 +557,12 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/Posting'
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_400'
-        "401":
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_401'
         "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_404'
+                $ref: '#/components/schemas/inline_response_404_3'
         "500":
           description: Internal Server Error
           content:
@@ -660,24 +608,12 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/Posting'
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_400'
-        "401":
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_401'
         "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_404'
+                $ref: '#/components/schemas/inline_response_404_3'
         "500":
           description: Internal Server Error
           content:
@@ -702,24 +638,18 @@ paths:
         schema:
           type: string
       responses:
-        "400":
-          description: Bad Request
+        "200":
+          description: Posting deleted successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_400'
-        "401":
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_401'
+                $ref: '#/components/schemas/Posting'
         "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_404'
+                $ref: '#/components/schemas/inline_response_404_3'
         "500":
           description: Internal Server Error
           content:
@@ -751,6 +681,10 @@ paths:
                   $ref: '#/components/schemas/Room'
         "500":
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500_2'
       x-swagger-router-controller: Room
   /rooms:
     post:
@@ -767,25 +701,17 @@ paths:
         required: true
       responses:
         "200":
-          description: Upload Successfully!!
-        "400":
-          description: Bad Request
+          description: Room created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_400'
-        "401":
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_401'
+                $ref: '#/components/schemas/inline_response_200_4'
         "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_404'
+                $ref: '#/components/schemas/inline_response_404_4'
         "500":
           description: Internal Server Error
           content:
@@ -805,7 +731,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_3'
+                $ref: '#/components/schemas/inline_response_200_5'
         "500":
           description: Server error
           content:
@@ -842,7 +768,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_4'
+                $ref: '#/components/schemas/inline_response_200_6'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
         "500":
           description: Server error
           content:
@@ -854,6 +792,8 @@ paths:
       x-swagger-router-controller: Room
   /rooms/{id}:
     delete:
+      tags:
+      - Room
       summary: Delete room by ID
       description: Delete room by ID
       operationId: roomsIdDELETE
@@ -872,20 +812,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_5'
+                $ref: '#/components/schemas/inline_response_200_7'
         "404":
           description: Room not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_404_1'
+                $ref: '#/components/schemas/inline_response_404_5'
         "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_500_2'
-      x-swagger-router-controller: Default
+                $ref: '#/components/schemas/inline_response_500_3'
+      x-swagger-router-controller: Room
   /getBuilding:
     get:
       tags:
@@ -1113,7 +1053,47 @@ components:
           roleName: fptmember
         messages: messages
         status: status
+    inline_response_404_1:
+      type: object
+      properties:
+        status:
+          type: string
+          example: Fail
+        messages:
+          type: string
+          example: Can not find users
     inline_response_200_2:
+      type: object
+      properties:
+        status:
+          type: string
+          example: Success
+        messages:
+          type: string
+          example: User status updated successfully!
+        data:
+          $ref: '#/components/schemas/User'
+      example:
+        data:
+          _ID: adminID
+          FullName: adminName
+          password: password
+          phoneNum: phoneNum
+          email: email
+          status: true
+          roleName: fptmember
+        messages: User status updated successfully!
+        status: Success
+    inline_response_404_2:
+      type: object
+      properties:
+        status:
+          type: string
+          example: Fail
+        messages:
+          type: string
+          example: Can not find any Post
+    inline_response_200_3:
       type: object
       properties:
         status:
@@ -1123,7 +1103,7 @@ components:
           type: string
           example: Get posts successfully from cache!
         data:
-          $ref: '#/components/schemas/inline_response_200_2_data'
+          $ref: '#/components/schemas/inline_response_200_3_data'
       example:
         data:
           postings:
@@ -1148,13 +1128,63 @@ components:
           type: string
         messages:
           type: string
+    inline_response_404_3:
+      type: object
+      properties:
+        status:
+          type: string
+          example: Fail
+        messages:
+          type: string
+          example: Can not find Post
+    inline_response_500_2:
+      type: object
+      properties:
+        status:
+          type: string
+          example: Fail
+        messages:
+          type: string
+          example: Internal Server Errorr
     rooms_body:
       type: object
       properties:
         img:
           type: string
           format: binary
-    inline_response_200_3:
+    inline_response_200_4:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the response
+          example: Success
+        message:
+          type: string
+          description: The message of the response
+          example: Room created successfully!
+        data:
+          $ref: '#/components/schemas/Room'
+      example:
+        data:
+          Status: Status
+          Building: Building
+          Description: Description
+          User: User
+          Price: Price
+          Size: Size
+        message: Room created successfully!
+        status: Success
+    inline_response_404_4:
+      type: object
+      properties:
+        status:
+          type: string
+          example: Fail
+        messages:
+          type: string
+          example: Not found
+    inline_response_200_5:
       type: object
       properties:
         status:
@@ -1162,7 +1192,7 @@ components:
         messages:
           type: string
         data:
-          $ref: '#/components/schemas/inline_response_200_3_data'
+          $ref: '#/components/schemas/inline_response_200_5_data'
       example:
         data:
           postings:
@@ -1191,7 +1221,7 @@ components:
           type: array
           items:
             type: string
-    inline_response_200_4:
+    inline_response_200_6:
       type: object
       properties:
         status:
@@ -1210,7 +1240,7 @@ components:
           Size: Size
         messages: messages
         status: status
-    inline_response_200_5:
+    inline_response_200_7:
       type: object
       properties:
         status:
@@ -1220,7 +1250,7 @@ components:
           type: string
           example: "Room with id {id} has been deleted successfully"
         data:
-          $ref: '#/components/schemas/inline_response_200_5_data'
+          $ref: '#/components/schemas/inline_response_200_7_data'
       example:
         data:
           room:
@@ -1232,7 +1262,7 @@ components:
             Size: Size
         message: "Room with id {id} has been deleted successfully"
         status: Success
-    inline_response_404_1:
+    inline_response_404_5:
       type: object
       properties:
         status:
@@ -1241,7 +1271,7 @@ components:
         message:
           type: string
           example: "Room with id {id} is not found"
-    inline_response_500_2:
+    inline_response_500_3:
       type: object
       properties:
         status:
@@ -1250,7 +1280,7 @@ components:
         message:
           type: string
           example: Error message
-    inline_response_200_2_data:
+    inline_response_200_3_data:
       type: object
       properties:
         postings:
@@ -1271,7 +1301,7 @@ components:
           buildings: buildings
           userPosting: userPosting
           title: title
-    inline_response_200_3_data:
+    inline_response_200_5_data:
       type: object
       properties:
         postings:
@@ -1292,7 +1322,7 @@ components:
           User: User
           Price: Price
           Size: Size
-    inline_response_200_5_data:
+    inline_response_200_7_data:
       type: object
       properties:
         room:
