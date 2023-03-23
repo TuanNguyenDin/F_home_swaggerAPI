@@ -2,14 +2,17 @@
   "openapi" : "3.0.0",
   "info" : {
     "title" : "F_homes",
-    "description" : "This is api for my team project",
+    "description" : "This platform provides an UI for API using",
+    "contact" : {
+      "name" : "Vu Tai",
+      "url" : "https://github.com/taivt21"
+    },
     "version" : "1.0.0"
   },
   "servers" : [ {
-    "url" : "https://f-homes-be.vercel.app/"
-  } ],
-  "security" : [ {
-    "BasicAuth" : [ ]
+    "url" : "https://fhome-be.vercel.app/"
+  }, {
+    "url" : "https://fhome-be2.vercel.app/"
   } ],
   "paths" : {
     "/login" : {
@@ -23,45 +26,31 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/accessToken"
-              }
-            },
-            "application/xml" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/accessToken"
-              }
-            },
-            "application/x-www-form-urlencoded" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/accessToken"
+                "example" : {
+                  "accessToken" : "your Token"
+                }
               }
             }
           }
         },
         "responses" : {
           "200" : {
-            "description" : "successful operation"
+            "description" : "Login successfully!"
           },
           "400" : {
-            "description" : "Invalid username/password supplied"
+            "description" : "Your email domain is not supported."
+          },
+          "401" : {
+            "description" : "Server requires authentication for client request"
+          },
+          "403" : {
+            "description" : "Client has been identified but has no access rights"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
           }
         },
-        "x-swagger-router-controller" : "User"
-      }
-    },
-    "/logout" : {
-      "get" : {
-        "tags" : [ "Authorization" ],
-        "summary" : "Logs out current logged in user session",
-        "description" : "",
-        "operationId" : "logoutUser",
-        "parameters" : [ ],
-        "responses" : {
-          "default" : {
-            "description" : "successful operation"
-          }
-        },
-        "x-swagger-router-controller" : "User"
+        "x-swagger-router-controller" : "Authorization"
       }
     },
     "/getUser" : {
@@ -72,7 +61,7 @@
         "operationId" : "findUser",
         "responses" : {
           "200" : {
-            "description" : "successful operation",
+            "description" : "Get users successfully!",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -87,17 +76,20 @@
           },
           "400" : {
             "description" : "Invalid status value"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
           }
         },
         "x-swagger-router-controller" : "User"
       }
     },
-    "/setUserStatu/{userID}" : {
+    "/setUserStatus/{userID}" : {
       "put" : {
         "tags" : [ "User" ],
-        "summary" : "Update user",
+        "summary" : "Update user status",
         "description" : "This can only be done by the logged in user.",
-        "operationId" : "updateUser",
+        "operationId" : "updateUserStatus",
         "parameters" : [ {
           "name" : "userID",
           "in" : "path",
@@ -110,7 +102,7 @@
           }
         } ],
         "requestBody" : {
-          "description" : "Update an existent user in the data",
+          "description" : "Update an user status in the data",
           "content" : {
             "application/json" : {
               "schema" : {
@@ -130,16 +122,24 @@
           }
         },
         "responses" : {
-          "default" : {
-            "description" : "successful operation"
+          "200" : {
+            "description" : "User status updated successfully!"
+          },
+          "404" : {
+            "description" : "User not found or status is not true"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
           }
         },
-        "x-swagger-router-controller" : "userRoutes"
-      },
+        "x-swagger-router-controller" : "User"
+      }
+    },
+    "/deleteUser/{userID}" : {
       "delete" : {
         "tags" : [ "User" ],
-        "summary" : "Delete user",
-        "description" : "This can only be done by the logged in user.",
+        "summary" : "Change user status become inactive",
+        "description" : "This can only be done by the logged in.",
         "operationId" : "deleteUser",
         "parameters" : [ {
           "name" : "userID",
@@ -153,6 +153,9 @@
           }
         } ],
         "responses" : {
+          "200" : {
+            "description" : "User status change to inactive success"
+          },
           "400" : {
             "description" : "Invalid username supplied"
           },
@@ -163,7 +166,7 @@
         "x-swagger-router-controller" : "User"
       }
     },
-    "/users" : {
+    "/getAllUsers" : {
       "get" : {
         "tags" : [ "User" ],
         "summary" : "Finds All User",
@@ -171,33 +174,38 @@
         "operationId" : "findUserWithAuth",
         "responses" : {
           "200" : {
-            "description" : "successful operation",
+            "description" : "Get users successfully!",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "type" : "array",
                   "items" : {
-                    "$ref" : "#/components/schemas/User"
+                    "$ref" : "#/components/schemas/inline_response_200"
                   },
                   "x-content-type" : "application/json"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/User"
-                  }
                 }
               }
             }
           },
           "400" : {
-            "description" : "Invalid status value"
+            "description" : "Invalid status value request"
+          },
+          "401" : {
+            "description" : "Server requires authentication for client request"
+          },
+          "403" : {
+            "description" : "Client has been identified but has no access rights"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
           }
         },
-        "x-swagger-router-controller" : "User"
-      },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/users" : {
       "post" : {
         "tags" : [ "User" ],
         "summary" : "Create user",
@@ -226,9 +234,35 @@
         "responses" : {
           "default" : {
             "description" : "successful operation"
+          },
+          "201" : {
+            "description" : "Create users successfully!",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/inline_response_200"
+                  },
+                  "x-content-type" : "application/json"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Server requires authentication for client request"
+          },
+          "403" : {
+            "description" : "Client has been identified but has no access rights"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
           }
         },
-        "x-swagger-router-controller" : "userRoutes"
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ],
+        "x-swagger-router-controller" : "User"
       }
     },
     "/users/{userID}" : {
@@ -250,16 +284,15 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "successful operation",
+            "description" : "Get users successfully!",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/User"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/User"
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/inline_response_200"
+                  },
+                  "x-content-type" : "application/json"
                 }
               }
             }
@@ -267,10 +300,22 @@
           "400" : {
             "description" : "Invalid username supplied"
           },
+          "401" : {
+            "description" : "Server requires authentication for client request"
+          },
+          "403" : {
+            "description" : "Client has been identified but has no access rights"
+          },
           "404" : {
             "description" : "User not found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
           }
         },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ],
         "x-swagger-router-controller" : "User"
       },
       "put" : {
@@ -310,10 +355,36 @@
           }
         },
         "responses" : {
-          "default" : {
-            "description" : "successful operation"
+          "200" : {
+            "description" : "Update users successfully!",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/inline_response_200"
+                  },
+                  "x-content-type" : "application/json"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Server requires authentication for client request"
+          },
+          "403" : {
+            "description" : "Client has been identified but has no access rights"
+          },
+          "404" : {
+            "description" : "User not found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
           }
         },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ],
         "x-swagger-router-controller" : "userRoutes"
       },
       "delete" : {
@@ -333,51 +404,1398 @@
           }
         } ],
         "responses" : {
+          "200" : {
+            "description" : "Users change status inactive successfully!",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/inline_response_200"
+                  },
+                  "x-content-type" : "application/json"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Invalid username supplied"
           },
+          "401" : {
+            "description" : "Server requires authentication for client request"
+          },
+          "403" : {
+            "description" : "Client has been identified but has no access rights"
+          },
           "404" : {
             "description" : "User not found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
           }
         },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ],
         "x-swagger-router-controller" : "User"
       }
     },
-    "/postingNew" : {
+    "/posts/user" : {
+      "get" : {
+        "tags" : [ "Posting" ],
+        "summary" : "Lấy danh sách bài đăng của người dùng",
+        "description" : "Lấy danh sách các bài đăng được tạo bởi người dùng đã xác thực.",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/posts/detail/{id}" : {
+      "get" : {
+        "tags" : [ "Posting" ],
+        "summary" : "Get a single posting by ID",
+        "description" : "Returns a single posting identified by its ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of the posting to retrieve",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfully retrieved posting",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_2"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The posting with the specified ID was not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_404"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "An error occurred while processing the request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_1"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/posts/create" : {
       "post" : {
         "tags" : [ "Posting" ],
-        "summary" : "create new posting",
-        "description" : "",
-        "operationId" : "UserPosting",
+        "summary" : "Create a new post",
         "requestBody" : {
-          "description" : "create a new post",
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/Posting"
+                "$ref" : "#/components/schemas/posts_create_body"
               }
-            },
-            "application/xml" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Posting"
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Post created successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_201"
+                }
               }
-            },
-            "application/x-www-form-urlencoded" : {
+            }
+          },
+          "400" : {
+            "description" : "Bad request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_2"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/posts/published" : {
+      "get" : {
+        "tags" : [ "Posting" ],
+        "summary" : "Get all published postings",
+        "description" : "Returns a list of all postings with status published",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_3"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_3"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/posts/draft" : {
+      "get" : {
+        "tags" : [ "Posting" ],
+        "summary" : "Get all draft postings",
+        "description" : "Retrieve a list of all draft postings from the database",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_4"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_4"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/posts/pending" : {
+      "get" : {
+        "tags" : [ "Posting" ],
+        "summary" : "Get all pending postings",
+        "description" : "Retrieve a list of all pending postings from the database",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_4"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_4"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/posts/approved" : {
+      "get" : {
+        "tags" : [ "Posting" ],
+        "summary" : "Get all approved postings",
+        "description" : "Retrieve a list of all approved postings from the database",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_4"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_4"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/posts/rejected" : {
+      "get" : {
+        "tags" : [ "Posting" ],
+        "summary" : "Get all rejected postings",
+        "description" : "Retrieve a list of all rejected postings from the database",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_4"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_4"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/posts/update/{id}" : {
+      "put" : {
+        "tags" : [ "Posting" ],
+        "summary" : "Update a posting by ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of the posting to update",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Posting updated successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_5"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400_1"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/postings/reject/{id}" : {
+      "put" : {
+        "tags" : [ "Posting" ],
+        "summary" : "Reject a posting by ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of the posting to reject",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The updated posting",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Posting"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400_2"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/postings/confirm/{id}" : {
+      "put" : {
+        "tags" : [ "Posting" ],
+        "summary" : "Confirm a posting by ID",
+        "description" : "Create a draft invoice, update the posting's status to pending, and send notification to the admin",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of the posting to confirm",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/Posting"
+                "$ref" : "#/components/schemas/confirm_id_body"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Posting updated successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_6"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400_1"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400_1"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_5"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/postings/approve/{id}" : {
+      "put" : {
+        "tags" : [ "Posting" ],
+        "summary" : "Approve a posting by ID",
+        "description" : "Create a draft invoice, update the posting's status to pending, and send notification to the admin",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of the posting to confirm",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/approve_id_body"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Posting updated successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_6"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400_1"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400_1"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_5"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/posts/delete/{id}" : {
+      "delete" : {
+        "tags" : [ "Posting" ],
+        "summary" : "Delete post",
+        "description" : "Delete a post by its ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of the post to delete",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfully deleted post",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_7"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "No post found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_404_1"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_6"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/getAllUsersAuthor" : {
+      "get" : {
+        "tags" : [ "User" ],
+        "summary" : "Get all users",
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400_1"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/userProfile/{id}" : {
+      "get" : {
+        "tags" : [ "User" ],
+        "summary" : "Get user by ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of the user to get",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "User found and returned successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "User not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400_1"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      },
+      "put" : {
+        "tags" : [ "User" ],
+        "summary" : "Update user by ID",
+        "description" : "Update an existing user by ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of the user to update",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/userProfile_id_body"
               }
             }
           }
         },
         "responses" : {
           "200" : {
-            "description" : "successful"
+            "description" : "Successfully updated the user",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_8"
+                }
+              }
+            }
           },
           "400" : {
-            "description" : "Invalid supplied"
+            "description" : "Bad request, the request was invalid or cannot be otherwise served",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400_1"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "User not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400_1"
+                }
+              }
+            }
           }
         },
-        "x-swagger-router-controller" : "User"
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/getRooms" : {
+      "get" : {
+        "tags" : [ "Room" ],
+        "summary" : "Finds All Room",
+        "description" : "Multiple status values can be provided with comma separated strings",
+        "operationId" : "findAllRoom",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Room"
+                  },
+                  "x-content-type" : "application/json"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Room"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        },
+        "x-swagger-router-controller" : "Room"
+      }
+    },
+    "/createRoom" : {
+      "post" : {
+        "tags" : [ "Room" ],
+        "summary" : "Create a new room",
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/createRoom_body"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Room created successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_201_1"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400_3"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Lỗi xác thực. Không có token xác thực hoặc token không hợp lệ."
+          },
+          "500" : {
+            "description" : "Lỗi server. Không thể tạo phòng do lỗi server."
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/getRoomsByUserId" : {
+      "get" : {
+        "tags" : [ "Room" ],
+        "summary" : "Get rooms by user ID",
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "query",
+          "description" : "The ID of the user",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_9"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_7"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/updateRoom/{id}" : {
+      "put" : {
+        "tags" : [ "Room" ],
+        "summary" : "Update a room by ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of the room to update",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Room updated successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_10"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The requested resource was not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_404_2"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "An internal server error occurred.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_8"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deleteRoom/{id}" : {
+      "delete" : {
+        "tags" : [ "Room" ],
+        "summary" : "Delete a room by ID",
+        "description" : "Delete a room with the specified ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of the room to delete",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Room deleted successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_11"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The requested resource was not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_404_2"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "An internal server error occurred.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_8"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getBuilding" : {
+      "get" : {
+        "tags" : [ "Building" ],
+        "summary" : "Finds All Building",
+        "description" : "Multiple status values can be provided with comma separated strings",
+        "operationId" : "findAllBuilding",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Building"
+                  },
+                  "x-content-type" : "application/json"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Building"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        },
+        "x-swagger-router-controller" : "Building"
+      }
+    },
+    "/pushNoti" : {
+      "post" : {
+        "tags" : [ "Notification" ],
+        "summary" : "Gửi thông báo push đến một thiết bị cụ thể",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/pushNoti_body"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_12"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getAllPostingCommentByPost/{id}" : {
+      "get" : {
+        "tags" : [ "Posting Comment" ],
+        "summary" : "Get all posting comments for a post",
+        "description" : "Get all the posting comments related to the post with the specified ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of the post to retrieve posting comments for",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_13"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The requested resource was not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_404_2"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "An internal server error occurred.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_8"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/postAllPostingCommentByPost" : {
+      "post" : {
+        "tags" : [ "Posting Comment" ],
+        "summary" : "Create a new posting comment",
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/postAllPostingCommentByPost_body"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Posting comment created successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_201_2"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "The request is invalid or cannot be served.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400_4"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "An internal server error occurred.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_8"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/getAllPostingComment" : {
+      "get" : {
+        "tags" : [ "Posting Comment" ],
+        "summary" : "Get all posting comments",
+        "description" : "Retrieve all posting comments",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_14"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "An internal server error occurred.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_8"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/createFavouritePost" : {
+      "post" : {
+        "tags" : [ "Favourite Post" ],
+        "summary" : "Create a favourite post",
+        "requestBody" : {
+          "description" : "Create a favourite post",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/createFavouritePost_body"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_201_3"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "The request is invalid or cannot be served.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400_4"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "An internal server error occurred.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_8"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/getFavouriteByUser" : {
+      "get" : {
+        "tags" : [ "Favourite Post" ],
+        "summary" : "Get favourite by userId",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_15"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "An internal server error occurred.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_8"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/getFavouriteByPost/{id}" : {
+      "get" : {
+        "tags" : [ "Favourite Post" ],
+        "summary" : "Get favourite by postId",
+        "description" : "Returns a list of favourite by postId",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The ID of the post",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_16"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "An internal server error occurred.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_8"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/deleteFavouritePost/{id}" : {
+      "delete" : {
+        "tags" : [ "Favourite Post" ],
+        "summary" : "Delete favourite post by id",
+        "description" : "Delete a favourite post by its id",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of the favourite post to delete",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "ObjectId"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_17"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The requested resource was not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_404_2"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "An internal server error occurred.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_500_8"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
       }
     }
   },
@@ -420,13 +1838,8 @@
           "password" : "password",
           "phoneNum" : "phoneNum",
           "email" : "email",
+          "status" : true,
           "roleName" : "fptmember"
-        }
-      },
-      "accessToken" : {
-        "description" : "your accessToken",
-        "example" : {
-          "accessToken" : "your Token"
         }
       },
       "Posting" : {
@@ -445,15 +1858,25 @@
             "description" : "buildings"
           },
           "roomTypes" : {
-            "$ref" : "#/components/schemas/Room"
+            "type" : "string",
+            "description" : "type of room"
           },
           "userPosting" : {
-            "$ref" : "#/components/schemas/User"
+            "type" : "string",
+            "description" : "user ID"
           },
           "img" : {
             "type" : "string",
             "description" : "img"
           }
+        },
+        "example" : {
+          "img" : "img",
+          "Description" : "Description",
+          "roomTypes" : "roomTypes",
+          "buildings" : "buildings",
+          "userPosting" : "userPosting",
+          "title" : "title"
         }
       },
       "Room" : {
@@ -480,7 +1903,69 @@
             "description" : "PostingDescription"
           },
           "User" : {
+            "type" : "string",
+            "description" : "user ID"
+          }
+        },
+        "example" : {
+          "Status" : "Status",
+          "Building" : "Building",
+          "Description" : "Description",
+          "User" : "User",
+          "Price" : "Price",
+          "Size" : "Size"
+        }
+      },
+      "Building" : {
+        "type" : "object",
+        "properties" : {
+          "BuildingName" : {
+            "type" : "string",
+            "description" : "Name of building"
+          },
+          "Address" : {
+            "type" : "string",
+            "description" : "Address"
+          },
+          "Status" : {
+            "type" : "boolean",
+            "description" : "status of building"
+          }
+        },
+        "example" : {
+          "Status" : true,
+          "Address" : "Address",
+          "BuildingName" : "BuildingName"
+        }
+      },
+      "PostingComment" : {
+        "type" : "object",
+        "properties" : {
+          "description" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "boolean"
+          },
+          "userPostingComment" : {
             "$ref" : "#/components/schemas/User"
+          },
+          "posting" : {
+            "$ref" : "#/components/schemas/Posting"
+          },
+          "img" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Favourite" : {
+        "type" : "object",
+        "properties" : {
+          "user" : {
+            "$ref" : "#/components/schemas/User"
+          },
+          "posting" : {
+            "$ref" : "#/components/schemas/Posting"
           }
         }
       },
@@ -495,6 +1980,1274 @@
           },
           "data" : {
             "$ref" : "#/components/schemas/User"
+          }
+        },
+        "example" : {
+          "data" : {
+            "_ID" : "adminID",
+            "FullName" : "adminName",
+            "password" : "password",
+            "phoneNum" : "phoneNum",
+            "email" : "email",
+            "status" : true,
+            "roleName" : "fptmember"
+          },
+          "messages" : "messages",
+          "status" : "status"
+        }
+      },
+      "inline_response_200_1" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "Trạng thái của API request",
+            "example" : "Success"
+          },
+          "messages" : {
+            "type" : "string",
+            "description" : "Thông điệp trả về từ API request",
+            "example" : "Get postings successfully!"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_1_data"
+          }
+        }
+      },
+      "inline_response_500" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "Trạng thái của API request",
+            "example" : "Fail"
+          },
+          "messages" : {
+            "type" : "string",
+            "description" : "Thông điệp trả về từ API request",
+            "example" : "Internal Server Error"
+          }
+        }
+      },
+      "inline_response_200_2" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "Status of the response"
+          },
+          "messages" : {
+            "type" : "string",
+            "description" : "A message indicating whether the operation was successful or not"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_2_data"
+          }
+        }
+      },
+      "inline_response_404" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "description" : "An error message indicating that the posting was not found"
+          }
+        }
+      },
+      "inline_response_500_1" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "Status of the response"
+          },
+          "messages" : {
+            "type" : "string",
+            "description" : "A message indicating the error that occurred"
+          }
+        }
+      },
+      "posts_create_body" : {
+        "required" : [ "buildings", "description", "img", "rooms", "title" ],
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "buildings" : {
+            "type" : "string"
+          },
+          "rooms" : {
+            "type" : "string"
+          },
+          "img" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_201" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string"
+          },
+          "messages" : {
+            "type" : "string"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_201_data"
+          }
+        }
+      },
+      "inline_response_400" : {
+        "type" : "object",
+        "properties" : {
+          "errors" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_400_errors"
+            }
+          }
+        }
+      },
+      "inline_response_500_2" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string"
+          },
+          "messages" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_200_3" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "example" : "Success"
+          },
+          "messages" : {
+            "type" : "string",
+            "example" : "Get posts successfully from database!"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_3_data"
+          }
+        }
+      },
+      "inline_response_500_3" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "example" : "Fail"
+          },
+          "messages" : {
+            "type" : "string",
+            "example" : "Error message"
+          }
+        }
+      },
+      "inline_response_200_4" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "Status of the response",
+            "example" : "Success"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_4_data"
+          }
+        }
+      },
+      "inline_response_500_4" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "Status of the response",
+            "example" : "Fail"
+          },
+          "messages" : {
+            "type" : "string",
+            "description" : "The error message returned by the API"
+          }
+        }
+      },
+      "inline_response_200_5" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_5_data"
+          }
+        }
+      },
+      "inline_response_400_1" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_400_2" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "description" : "Error message",
+            "example" : "..."
+          }
+        }
+      },
+      "postingsconfirmid_user" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          }
+        }
+      },
+      "confirm_id_body" : {
+        "required" : [ "email", "phoneNumber" ],
+        "type" : "object",
+        "properties" : {
+          "user" : {
+            "$ref" : "#/components/schemas/postingsconfirmid_user"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "phoneNumber" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_200_6" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/Posting"
+          }
+        }
+      },
+      "inline_response_500_5" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
+          },
+          "error" : {
+            "type" : "string"
+          }
+        }
+      },
+      "approve_id_body" : {
+        "required" : [ "email", "phoneNumber" ],
+        "type" : "object",
+        "properties" : {
+          "user" : {
+            "$ref" : "#/components/schemas/postingsconfirmid_user"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "phoneNumber" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_200_7" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "description" : "success message"
+          }
+        }
+      },
+      "inline_response_404_1" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "description" : "error message"
+          }
+        }
+      },
+      "inline_response_500_6" : {
+        "type" : "object",
+        "properties" : {
+          "error" : {
+            "type" : "string",
+            "description" : "error message"
+          }
+        }
+      },
+      "userProfile_id_body" : {
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          },
+          "phoneNumber" : {
+            "type" : "string"
+          },
+          "fullname" : {
+            "type" : "string"
+          },
+          "img" : {
+            "type" : "string"
+          },
+          "roleName" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_200_8" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          },
+          "phoneNumber" : {
+            "type" : "string"
+          },
+          "fullname" : {
+            "type" : "string"
+          },
+          "img" : {
+            "type" : "string"
+          },
+          "roleName" : {
+            "type" : "string"
+          }
+        }
+      },
+      "createRoom_body" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "img" : {
+            "type" : "string",
+            "format" : "binary"
+          }
+        }
+      },
+      "inline_response_201_1" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_201_1_data"
+          }
+        }
+      },
+      "inline_response_400_3" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "errors" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_400_3_errors"
+            }
+          }
+        }
+      },
+      "inline_response_200_9" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "Success or Fail"
+          },
+          "messages" : {
+            "type" : "string",
+            "description" : "Message response"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_9_data"
+          }
+        }
+      },
+      "inline_response_401" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "Fail"
+          },
+          "messages" : {
+            "type" : "string",
+            "description" : "Unauthorized"
+          }
+        }
+      },
+      "inline_response_500_7" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "Fail"
+          },
+          "messages" : {
+            "type" : "string",
+            "description" : "Error message"
+          }
+        }
+      },
+      "inline_response_200_10" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "example" : "Success"
+          },
+          "message" : {
+            "type" : "string",
+            "example" : "Update room successfully!"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_10_data"
+          }
+        }
+      },
+      "inline_response_404_2" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "description" : "Error message."
+          }
+        }
+      },
+      "inline_response_500_8" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "description" : "A message explaining the error."
+          }
+        }
+      },
+      "inline_response_200_11" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "example" : "Success"
+          },
+          "message" : {
+            "type" : "string",
+            "example" : "Room with id 123 has been deleted successfully"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_10_data"
+          }
+        }
+      },
+      "pushNoti_notification" : {
+        "required" : [ "body", "title" ],
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string",
+            "example" : "New notification in your app"
+          },
+          "body" : {
+            "type" : "string",
+            "example" : "Someone is waiting for your approval!"
+          }
+        }
+      },
+      "pushNoti_body" : {
+        "required" : [ "deviceToken", "notification" ],
+        "type" : "object",
+        "properties" : {
+          "deviceToken" : {
+            "type" : "string",
+            "example" : "mydevice"
+          },
+          "notification" : {
+            "$ref" : "#/components/schemas/pushNoti_notification"
+          },
+          "priority" : {
+            "type" : "string",
+            "example" : "high"
+          },
+          "time_to_live" : {
+            "type" : "integer",
+            "example" : 3600
+          }
+        }
+      },
+      "inline_response_200_12" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_12_data"
+          }
+        }
+      },
+      "inline_response_200_13" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "example" : "Success"
+          },
+          "messages" : {
+            "type" : "string",
+            "example" : "Get postings successfully!"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_13_data"
+          }
+        }
+      },
+      "postAllPostingCommentByPost_body" : {
+        "required" : [ "description", "posting" ],
+        "type" : "object",
+        "properties" : {
+          "description" : {
+            "type" : "string",
+            "description" : "The content of the posting comment"
+          },
+          "posting" : {
+            "type" : "string",
+            "description" : "The ID of the posting that the comment belongs to"
+          },
+          "img" : {
+            "type" : "string",
+            "description" : "The image file associated with the comment",
+            "format" : "binary"
+          }
+        }
+      },
+      "inline_response_201_2" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "example" : "Success"
+          },
+          "messages" : {
+            "type" : "string",
+            "example" : "Post created successfully!"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_201_2_data"
+          }
+        }
+      },
+      "inline_response_400_4" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "example" : "Fail"
+          },
+          "messages" : {
+            "type" : "string",
+            "example" : "Bad request error message"
+          },
+          "errors" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_400_4_errors"
+            }
+          }
+        }
+      },
+      "inline_response_200_14" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "The status of the response.",
+            "example" : "Success"
+          },
+          "messages" : {
+            "type" : "string",
+            "description" : "A message about the response status.",
+            "example" : "Get postings successfully!"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_14_data"
+          }
+        }
+      },
+      "createFavouritePost_body" : {
+        "required" : [ "postId" ],
+        "type" : "object",
+        "properties" : {
+          "postId" : {
+            "type" : "string",
+            "description" : "ID of the post to be favorited"
+          }
+        },
+        "example" : {
+          "postId" : "615b77d6cfc6dc052fe6a1d2"
+        }
+      },
+      "inline_response_201_3" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "Status of the request",
+            "example" : "Success"
+          },
+          "messages" : {
+            "type" : "string",
+            "description" : "Success message",
+            "example" : "Favourite post created successfully!"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_201_3_data"
+          }
+        }
+      },
+      "inline_response_200_15" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "example" : "Success"
+          },
+          "messages" : {
+            "type" : "string",
+            "example" : "Get favourite by userId successfully!"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_15_data"
+          }
+        },
+        "example" : {
+          "status" : "Success",
+          "messages" : "Get favourite by userId successfully!",
+          "data" : {
+            "favourite" : [ {
+              "user" : {
+                "_id" : "1234567890abcdef",
+                "name" : "John Doe",
+                "email" : "johndoe@example.com"
+              },
+              "post" : {
+                "_id" : "abcdef1234567890",
+                "title" : "Example Post",
+                "content" : "This is an example post.",
+                "createdAt" : "2023-03-22T14:21:00.000Z",
+                "updatedAt" : "2023-03-22T14:21:00.000Z",
+                "author" : "1234567890abcdef"
+              }
+            } ]
+          }
+        }
+      },
+      "inline_response_200_16" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "The status of the response"
+          },
+          "messages" : {
+            "type" : "string",
+            "description" : "The response message"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_16_data"
+          }
+        }
+      },
+      "inline_response_200_17" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "example" : "Success"
+          },
+          "messages" : {
+            "type" : "string",
+            "example" : "Favourite post delete successfully!"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_17_data"
+          }
+        }
+      },
+      "inline_response_200_1_data" : {
+        "type" : "object",
+        "properties" : {
+          "postings" : {
+            "type" : "array",
+            "description" : "Danh sách các bài đăng được tạo bởi người dùng đã xác thực.",
+            "items" : {
+              "$ref" : "#/components/schemas/Posting"
+            }
+          }
+        }
+      },
+      "inline_response_200_2_data_posting" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "description" : "The unique identifier of the posting"
+          },
+          "userPosting" : {
+            "type" : "string",
+            "description" : "The unique identifier of the user who created the posting"
+          },
+          "buildings" : {
+            "type" : "string",
+            "description" : "The unique identifier of the building where the posting is located"
+          },
+          "rooms" : {
+            "type" : "string",
+            "description" : "The unique identifier of the room where the posting is located"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "The title of the posting"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "The description of the posting"
+          },
+          "price" : {
+            "type" : "number",
+            "description" : "The price of the posting"
+          },
+          "images" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "description" : "The URLs of the images attached to the posting"
+            }
+          }
+        }
+      },
+      "inline_response_200_2_data" : {
+        "type" : "object",
+        "properties" : {
+          "posting" : {
+            "$ref" : "#/components/schemas/inline_response_200_2_data_posting"
+          }
+        }
+      },
+      "inline_response_201_data" : {
+        "type" : "object",
+        "properties" : {
+          "post" : {
+            "type" : "object"
+          }
+        }
+      },
+      "inline_response_400_errors" : {
+        "type" : "object",
+        "properties" : {
+          "value" : {
+            "type" : "string"
+          },
+          "msg" : {
+            "type" : "string"
+          },
+          "param" : {
+            "type" : "string"
+          },
+          "location" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_200_3_data" : {
+        "type" : "object",
+        "properties" : {
+          "postings" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Room"
+            }
+          }
+        }
+      },
+      "inline_response_200_4_data" : {
+        "type" : "object",
+        "properties" : {
+          "postings" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Posting"
+            }
+          }
+        },
+        "description" : "The data returned by the API"
+      },
+      "inline_response_200_5_data" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "buildings" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "roomTypes" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "userPosting" : {
+            "type" : "string"
+          },
+          "img" : {
+            "type" : "string"
+          },
+          "createdAt" : {
+            "type" : "string"
+          },
+          "updatedAt" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_201_1_data" : {
+        "type" : "object",
+        "properties" : {
+          "newRoom" : {
+            "$ref" : "#/components/schemas/Room"
+          }
+        }
+      },
+      "inline_response_400_3_errors" : {
+        "type" : "object",
+        "properties" : {
+          "msg" : {
+            "type" : "string"
+          },
+          "param" : {
+            "type" : "string"
+          },
+          "location" : {
+            "type" : "string"
+          },
+          "value" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_200_9_data" : {
+        "type" : "object",
+        "properties" : {
+          "rooms" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Room"
+            }
+          }
+        }
+      },
+      "inline_response_200_10_data" : {
+        "type" : "object",
+        "properties" : {
+          "room" : {
+            "$ref" : "#/components/schemas/Room"
+          }
+        }
+      },
+      "inline_response_200_12_data" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "example" : "Notification sent successfully"
+          }
+        }
+      },
+      "inline_response_200_13_data" : {
+        "type" : "object",
+        "properties" : {
+          "postingComments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PostingComment"
+            }
+          }
+        }
+      },
+      "inline_response_201_2_data" : {
+        "type" : "object",
+        "properties" : {
+          "postComment" : {
+            "$ref" : "#/components/schemas/PostingComment"
+          }
+        }
+      },
+      "inline_response_400_4_errors" : {
+        "type" : "object",
+        "properties" : {
+          "value" : {
+            "type" : "string",
+            "example" : "invalid value"
+          },
+          "msg" : {
+            "type" : "string",
+            "example" : "error message"
+          },
+          "param" : {
+            "type" : "string",
+            "example" : "field name"
+          }
+        }
+      },
+      "inline_response_200_14_data_userPostingComment" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "description" : "The ID of the user.",
+            "example" : "6164987ac1b1bb36f12a045a"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "The name of the user.",
+            "example" : "John Doe"
+          }
+        },
+        "description" : "The user who posted the comment."
+      },
+      "inline_response_200_14_data_posting" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "description" : "The ID of the posting.",
+            "example" : "6164987ac1b1bb36f12a045a"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "The title of the posting.",
+            "example" : "Nice Apartment for Rent"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "The description of the posting.",
+            "example" : "This is a nice apartment for rent."
+          }
+        },
+        "description" : "The posting that the comment is on."
+      },
+      "inline_response_200_14_data_postingComments" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "description" : "The ID of the posting comment.",
+            "example" : "61649bdfc1b1bb36f12a045d"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "The description of the posting comment.",
+            "example" : "This is a comment on a posting."
+          },
+          "userPostingComment" : {
+            "$ref" : "#/components/schemas/inline_response_200_14_data_userPostingComment"
+          },
+          "posting" : {
+            "$ref" : "#/components/schemas/inline_response_200_14_data_posting"
+          },
+          "img" : {
+            "type" : "string",
+            "description" : "The URL of the image associated with the posting comment.",
+            "example" : "https://example.com/images/comment.jpg"
+          }
+        }
+      },
+      "inline_response_200_14_data" : {
+        "type" : "object",
+        "properties" : {
+          "postingComments" : {
+            "type" : "array",
+            "description" : "List of posting comments.",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_14_data_postingComments"
+            }
+          }
+        }
+      },
+      "inline_response_201_3_data_favorite" : {
+        "type" : "object",
+        "properties" : {
+          "user" : {
+            "type" : "string",
+            "description" : "User ID who favorited the post",
+            "example" : "615b78bacfc6dc052fe6a1d4"
+          },
+          "post" : {
+            "type" : "string",
+            "description" : "Post ID which was favorited",
+            "example" : "615b77d6cfc6dc052fe6a1d2"
+          }
+        }
+      },
+      "inline_response_201_3_data" : {
+        "type" : "object",
+        "properties" : {
+          "favorite" : {
+            "$ref" : "#/components/schemas/inline_response_201_3_data_favorite"
+          }
+        },
+        "description" : "Favourite post object"
+      },
+      "inline_response_200_15_data_user" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string",
+            "format" : "email"
+          }
+        }
+      },
+      "inline_response_200_15_data_post" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "content" : {
+            "type" : "string"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updatedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "author" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_200_15_data_favourite" : {
+        "type" : "object",
+        "properties" : {
+          "user" : {
+            "$ref" : "#/components/schemas/inline_response_200_15_data_user"
+          },
+          "post" : {
+            "$ref" : "#/components/schemas/inline_response_200_15_data_post"
+          }
+        }
+      },
+      "inline_response_200_15_data" : {
+        "type" : "object",
+        "properties" : {
+          "favourite" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_15_data_favourite"
+            }
+          }
+        }
+      },
+      "inline_response_200_16_data_user" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "description" : "The ID of the user"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "The name of the user"
+          },
+          "email" : {
+            "type" : "string",
+            "description" : "The email of the user"
+          }
+        },
+        "description" : "The user who favourited the post"
+      },
+      "inline_response_200_16_data_post_author" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "description" : "The ID of the author"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "The name of the author"
+          },
+          "email" : {
+            "type" : "string",
+            "description" : "The email of the author"
+          },
+          "avatar" : {
+            "type" : "string",
+            "description" : "The avatar of the author"
+          }
+        },
+        "description" : "The author of the post"
+      },
+      "inline_response_200_16_data_post" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "description" : "The ID of the post"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "The title of the post"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "The content of the post"
+          },
+          "author" : {
+            "$ref" : "#/components/schemas/inline_response_200_16_data_post_author"
+          }
+        },
+        "description" : "The post that was favourited"
+      },
+      "inline_response_200_16_data_favourite" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "description" : "The ID of the favourite"
+          },
+          "user" : {
+            "$ref" : "#/components/schemas/inline_response_200_16_data_user"
+          },
+          "post" : {
+            "$ref" : "#/components/schemas/inline_response_200_16_data_post"
+          }
+        },
+        "description" : "The favourite object",
+        "example" : "{\"_id\":12345,\"user\":{\"_id\":\"abcde\",\"name\":\"John Doe\",\"email\":\"john.doe@example.com\"},\"post\":{\"_id\":67890,\"title\":\"Sample Post\",\"content\":\"This is a sample post\",\"author\":{\"_id\":\"qwerty\",\"name\":\"Jane Smith\",\"email\":\"jane.smith@example.com\",\"avatar\":\"https://example.com/avatar.png\"}}}"
+      },
+      "inline_response_200_16_data" : {
+        "type" : "object",
+        "properties" : {
+          "favourite" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_16_data_favourite"
+            }
+          }
+        },
+        "description" : "The data of the response"
+      },
+      "inline_response_200_17_data" : {
+        "type" : "object",
+        "properties" : {
+          "favorite" : {
+            "$ref" : "#/components/schemas/Favourite"
+          }
+        }
+      }
+    },
+    "responses" : {
+      "BadRequestError" : {
+        "description" : "The request is invalid or cannot be served.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_400_4"
+            }
+          }
+        }
+      },
+      "UnauthorizedError" : {
+        "description" : "Access token is missing or invalid",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_401"
+            }
+          }
+        }
+      },
+      "NotFoundError" : {
+        "description" : "The requested resource was not found.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_404_2"
+            }
+          }
+        }
+      },
+      "InternalServerError" : {
+        "description" : "An internal server error occurred.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_500_8"
+            }
           }
         }
       }
